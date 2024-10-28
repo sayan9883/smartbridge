@@ -1,0 +1,38 @@
+@isTest
+public class MyApexClassTest {
+    @isTest
+    static void testCreateClient() {
+        // Test with valid data
+        Client__c client = MyApexClass.createClient('Test Name', 'test@example.com', '1234567890', 5000);
+        System.assertNotEquals(null, client.Id, 'Client record should have been created.');
+
+        // Test with missing fields
+        try {
+            MyApexClass.createClient('', 'test@example.com', '1234567890', 5000);
+            System.assert(false, 'Expected an exception due to missing name.');
+        } catch (Exception e) {
+            System.assertEquals('Name, email, phone, and budget cannot be empty.', e.getMessage());
+        }
+
+        try {
+            MyApexClass.createClient('Test Name', '', '1234567890', 5000);
+            System.assert(false, 'Expected an exception due to missing email.');
+        } catch (Exception e) {
+            System.assertEquals('Name, email, phone, and budget cannot be empty.', e.getMessage());
+        }
+
+        try {
+            MyApexClass.createClient('Test Name', 'test@example.com', '', 5000);
+            System.assert(false, 'Expected an exception due to missing phone.');
+        } catch (Exception e) {
+            System.assertEquals('Name, email, phone, and budget cannot be empty.', e.getMessage());
+        }
+
+        try {
+            MyApexClass.createClient('Test Name', 'test@example.com', '1234567890', null);
+            System.assert(false, 'Expected an exception due to missing budget.');
+        } catch (Exception e) {
+            System.assertEquals('Name, email, phone, and budget cannot be empty.', e.getMessage());
+        }
+    }
+}
