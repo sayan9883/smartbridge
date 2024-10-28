@@ -1,0 +1,21 @@
+public class MyApexClass {
+    public static Client__c createClient(String name, String email, String phone, Decimal budget) {
+        // Validate input
+        if (String.isEmpty(name) || String.isEmpty(email) || String.isEmpty(phone) || budget == null) {
+            throw new IllegalArgumentException('Name, email, phone, and budget cannot be empty.');
+        }
+
+        // Create a new instance of the Client__c object
+        Client__c newClient = new Client__c();
+        newClient.Name = name;
+        newClient.Email__c = email;  // Assuming Email__c is a custom field
+        newClient.Phone__c = phone;  // Assuming Phone__c is a custom field
+        newClient.Budget__c = budget; // Assuming Budget__c is a custom field and required
+
+        // Insert the new client record
+        insert newClient;
+
+        // Return the created client
+        return newClient;
+    }
+}
